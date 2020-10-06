@@ -1,3 +1,5 @@
+### WITH MAC CHROMEDRIVER CURRENTLY ###
+
 ### Imports ###
 import os
 from selenium import webdriver
@@ -14,15 +16,17 @@ usaText = []
 upiFilteredList = []
 upiLinkList = []
 upiText = []
+politicoLinkList = []
+politicoFilteredList = []
+politicoText = []
 cnnSearched = False
 usaSearched = False
 upiSearched = False
-
+politicoSearched = False
 
 ### Finding and setting up chromedriver for webscraping ###
-driver_path = os.path.dirname(os.path.realpath(__file__)) + '\\chromedriver.exe'
+driver_path = os.path.dirname(os.path.realpath(__file__)) + '/chromedriver'
 browser = webdriver.Chrome(executable_path = driver_path)
-
 
 
 ### Getting Current Date (Used in Webscraping) ###
@@ -44,10 +48,6 @@ def calibrateDate():
     else:
         currentDay = str(dt.day)
     
-
-
-### Webscraping CNN ###
-
 def cnnScrape():
     #Goes to CNN US page and gets links from all headlines
     browser.get('https://www.cnn.com/us')
@@ -156,8 +156,41 @@ def upiScrape():
     global upiSearched
     upiSearched = True
 
+### Webscraping Politico ###
+def politicoScrape():
+    browser.get('https://www.politico.com/')
+    
+    politicoHeadlines = browser.find_elements_by_tag_name('a')
 
+    target = '/' + currentYear + '/' + currentMonth + '/' + currentDay
+    
+    for i in politicoHeadlines:
+        try:
+            politicoLink = i.get_attribute('href')
+            if target in politicoLink:
+                politicoLinkList.append(politicoLink)
+        except:
+            pass
 
+    for i in politicoLinkList:
+        if i not in politicoFilteredList:
+            politicoFilteredList.append(i)
+
+    print(politicoFilteredList)
+
+    for i in politicoFilteredList:
+        articleText = []
+        browser.get(i)
+        articleText = browser.find_elements_by_tag_name('p')
+        for i in articleText:
+            try:
+                politicoText.append(i.text)
+                print(i.text)
+            except:
+                pass
+
+    global politicoSearched
+    politicoSearched = True
 
 ### Adding scraped data to data.txt ###
 def storeData():
@@ -201,6 +234,17 @@ def storeData():
                 pass
         file.close()
 
+    #Append Politico Data
+
+    if politicoSearched:
+        file = open("data.txt", "a+")
+        for i in range(len(politicoText)):
+            try:
+                file.write(politicoText[i])
+            except:
+                pass
+        file.close()
+
 
 
 ### Main ###
@@ -209,5 +253,6 @@ calibrateDate()
 upiScrape()
 usaScrape()
 cnnScrape()
+politicoScrape()
 storeData()
 print('done')

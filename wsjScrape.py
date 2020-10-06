@@ -8,15 +8,11 @@ import datetime
 driver_path = os.path.dirname(os.path.realpath(__file__)) + '/chromedriver'
 browser = webdriver.Chrome(executable_path = driver_path)
 
-# wsjLinkList = []
-# wsjFilteredList = []
-# wsjText = []
-politicoLinkList = []
-politicoFilteredList = []
-politicoText = []
+wsjLinkList = []
+wsjFilteredList = []
+wsjText = []
 
-# wsjSearched = False
-politicoSearched = False
+wsjSearched = False
 
 
 ### Getting Current Date (Used in Webscraping) ###
@@ -39,49 +35,41 @@ def calibrateDate():
         currentDay = str(dt.day)
 
 
-# ### Webscraping WSJ ###
-# def wsjScrape():
-#     browser.get('https://www.wsj.com/')
-#     wsjHeadlines = browser.find_element_by_tag_name('a')
+### Webscraping WSJ ###
 
-#     # Puts all links from today into wsjLinkList
-#     target = 'https://www.wsj.com/'
+def wsjScrape():
+    browser.get('https://www.wsj.com/')
+    wsjHeadlines = browser.find_elements_by_tag_name('a')
 
-
-def politicoScrape():
-    browser.get('https://www.politico.com/')
-    
-    politicoHeadlines = browser.find_elements_by_tag_name('a')
-
+    # Puts all links from today into wsjLinkList
     target = '/' + currentYear + '/' + currentMonth + '/' + currentDay
-    
-    for i in politicoHeadlines:
+    for i in wsjHeadlines:
         try:
-            politicoLink = i.get_attribute('href')
-            if target in politicoLink:
-                politicoLinkList.append(politicoLink)
+            wsjLink = i.get_attribute('href')
+            if target in wsjLink:
+                wsjLinkList.append(wsjLink)
         except:
             pass
 
-    for i in politicoLinkList:
-        if i not in politicoFilteredList:
-            politicoFilteredList.append(i)
+    for i in wsjLinkList:
+        if i not in wsjFilteredList:
+            wsjFilteredList.append(i)
+    
+    # print(wsjFilteredList)
 
-    print(politicoFilteredList)
-
-    for i in politicoFilteredList:
+    for i in wsjFilteredList:
         articleText = []
         browser.get(i)
         articleText = browser.find_elements_by_tag_name('p')
         for i in articleText:
             try:
-                politicoText.append(i.text)
+                wsjText.append(i.text)
                 print(i.text)
             except:
                 pass
 
-    global politicoSearched
-    politicoSearched = True
+    global wsjSearched
+    wsjSearched = True
 
 
 
@@ -89,21 +77,20 @@ def politicoScrape():
 def storeData():
     
     #Delete data located in data.txt
-    
     file = open("data.txt","r+")
     file.truncate(0)
     file.close()
     
-    if politicoSearched:
+    if wsjSearched:
         file = open("data.txt", "a+")
-        for i in range(len(politicoText)):
+        for i in range(len(wsjText)):
             try:
-                file.write(politicoText[i])
+                file.write(wsjText[i])
             except:
                 pass
         file.close()
 
 calibrateDate()
-politicoScrape()
+wsjScrape()
 storeData()
 print('done')

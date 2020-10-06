@@ -25,6 +25,8 @@ upiSearched = False
 politicoSearched = False
 
 ### Finding and setting up chromedriver for webscraping ###
+# driver_path = os.path.dirname(os.path.realpath(__file__)) + '\\chromedriver.exe'
+    # PC Driver
 driver_path = os.path.dirname(os.path.realpath(__file__)) + '/chromedriver'
 browser = webdriver.Chrome(executable_path = driver_path)
 

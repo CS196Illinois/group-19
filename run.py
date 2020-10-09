@@ -21,8 +21,10 @@ upiSearched = False
 politicoSearched = False
 
 ### Finding and setting up chromedriver for webscraping ###
+
 #driver_path = os.path.dirname(os.path.realpath(__file__)) + '\\chromedriver.exe'
      #PC Driver
+
 driver_path = os.path.dirname(os.path.realpath(__file__)) + '/chromedriver'
 browser = webdriver.Chrome(executable_path = driver_path)
 
@@ -46,8 +48,6 @@ def calibrateDate():
     else:
         currentDay = str(dt.day)
 
-    currentDay = "08"
-
 #Webscraping CNN
 def cnnScrape():
     browser.get('http://lite.cnn.com/en')
@@ -69,6 +69,7 @@ def cnnScrape():
                     print(n.text)
             except:
                 pass
+
     global cnnSearched
     cnnSearched = True
 
@@ -207,3 +208,4 @@ cnnScrape()
 politicoScrape()
 storeData()
 print('done')
+

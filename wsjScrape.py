@@ -1,5 +1,7 @@
 # https://stackoverflow.com/questions/58733753 how-to-extract-daily-close-from-wsj-using-python
 
+# https://crossbrowsertesting.com/blog/test-automation/automate-login-with-selenium/
+
 import os
 from selenium import webdriver
 import datetime

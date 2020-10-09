@@ -180,6 +180,8 @@ def politicoScrape():
 
     print(politicoFilteredList)
 
+    ### WHY ARTICLE TEXT TWICE?? ###
+
     for i in politicoFilteredList:
         articleText = []
         browser.get(i)

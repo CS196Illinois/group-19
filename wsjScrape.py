@@ -36,6 +36,13 @@ def calibrateDate():
     else:
         currentDay = str(dt.day)
 
+def wsjLogin():
+    browser.get('https://sso.accounts.dowjones.com/login?state=g6Fo2SAtaG9qTmN2djNoSzVlUzQtSlpkZUQ4LTZKTUFhM2FNT6N0aWTZIHVpOGtjdVUtVHpaMngxbVZsNnljcFV1WmdVRWxCc1VHo2NpZNkgNWhzc0VBZE15MG1KVElDbkpOdkM5VFhFdzNWYTdqZk8&client=5hssEAdMy0mJTICnJNvC9TXEw3Va7jfO&protocol=oauth2&scope=openid%20idp_id%20roles%20email%20given_name%20family_name%20djid%20djUsername%20djStatus%20trackid%20tags%20prts%20suuid&response_type=code&redirect_uri=https%3A%2F%2Faccounts.wsj.com%2Fauth%2Fsso%2Flogin&nonce=8ab5cc77-7bbe-4f9b-9d24-1e3dc33de2b1&ui_locales=en-us-x-wsj-83-2&ns=prod%2Faccounts-wsj&savelogin=on#!/signin')
+    browser.find_element_by_class_name('username').send_keys('granthale10@gmail.com')
+    browser.find_element_by_class_name('password').send_keys('Ferdamodel1')
+    browser.find_element_by_class_name('solid-button basic-login-submit').click()
+
+
 
 ### Webscraping WSJ ###
 
@@ -56,11 +63,7 @@ def wsjScrape():
     for i in wsjLinkList:
         if i not in wsjFilteredList:
             wsjFilteredList.append(i)
-    
-    # print(wsjFilteredList)
-
     for i in wsjFilteredList:
-        articleText = []
         browser.get(i)
         articleText = browser.find_elements_by_tag_name('p')
         for i in articleText:
@@ -92,6 +95,7 @@ def storeData():
                 pass
         file.close()
 
+wsjLogin()
 calibrateDate()
 wsjScrape()
 storeData()

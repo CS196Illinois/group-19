@@ -58,7 +58,6 @@ def cnnScrape():
                 cnnList.add(i.get_attribute('href'))
         except:
             pass
-    print(cnnList)  
     for i in cnnList:
         browser.get(i)
         articleText = browser.find_elements_by_tag_name('p')
@@ -66,10 +65,11 @@ def cnnScrape():
             try:
                 if "© 2019 Cable News Network. Turner Broadcasting System, Inc. All Rights Reserved." not in n.text and "Listen to CNN (low-bandwidth usage)" not in n.text and "Go to the full CNN experience" not in n.text:
                     cnnText.append(n.text)
-                    print(n.text)
+                    # print(n.text)
             except:
                 pass
 
+    print("Scraped CNN")
     global cnnSearched
     cnnSearched = True
 
@@ -85,16 +85,16 @@ def usaScrape():
                 usaList.add(usaLink)
         except:
             pass
-    print(usaList)  
     for i in usaList:
         browser.get(i)
         articleText = browser.find_elements_by_class_name('gnt_ar_b_p')
         for n in articleText:
             usaText.append(n.text)
-            print(n.text)
+            # print(n.text)
     global usaSearched
     usaSearched = True
 
+    print("Scraped USA")
     
 ### Webscraping UPI ###
 def upiScrape():
@@ -107,18 +107,19 @@ def upiScrape():
                 upiList.add(upiLink)
         except:
             pass
-    print(upiList)  
     for i in upiList:
         browser.get(i)
         articleText = browser.find_elements_by_tag_name('p')
         for n in articleText:
             try:
                 upiText.append(n.text)
-                print(n.text)
+                # print(n.text)
             except:
                 pass
     global upiSearched
     upiSearched = True
+
+    print("Scraped UPI")
 
 ### Webscraping Politico ###
 def politicoScrape():
@@ -131,18 +132,19 @@ def politicoScrape():
                 politicoList.add(politicoLink)
         except:
             pass
-    print(politicoList)
     for i in politicoList:
         browser.get(i)
         articleText = browser.find_elements_by_class_name('story-text__paragraph')
         for n in articleText:
             try:
                 politicoText.append(n.text)
-                print(n.text)
+                # print(n.text)
             except:
                 pass
     global politicoSearched
     politicoSearched = True
+    
+    print("Scraped Politico")
 
 ### Adding scraped data to data.txt ###
 def storeData():
@@ -207,5 +209,4 @@ usaScrape()
 cnnScrape()
 politicoScrape()
 storeData()
-print('done')
-
+print('\ndone')

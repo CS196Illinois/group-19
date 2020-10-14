@@ -1,6 +1,3 @@
-# https://stackoverflow.com/questions/58733753 how-to-extract-daily-close-from-wsj-using-python
-
-# https://crossbrowsertesting.com/blog/test-automation/automate-login-with-selenium/
 
 import os
 from selenium import webdriver
@@ -36,11 +33,11 @@ def calibrateDate():
     else:
         currentDay = str(dt.day)
 
-def wsjLogin():
-    browser.get('https://sso.accounts.dowjones.com/login?state=g6Fo2SAtaG9qTmN2djNoSzVlUzQtSlpkZUQ4LTZKTUFhM2FNT6N0aWTZIHVpOGtjdVUtVHpaMngxbVZsNnljcFV1WmdVRWxCc1VHo2NpZNkgNWhzc0VBZE15MG1KVElDbkpOdkM5VFhFdzNWYTdqZk8&client=5hssEAdMy0mJTICnJNvC9TXEw3Va7jfO&protocol=oauth2&scope=openid%20idp_id%20roles%20email%20given_name%20family_name%20djid%20djUsername%20djStatus%20trackid%20tags%20prts%20suuid&response_type=code&redirect_uri=https%3A%2F%2Faccounts.wsj.com%2Fauth%2Fsso%2Flogin&nonce=8ab5cc77-7bbe-4f9b-9d24-1e3dc33de2b1&ui_locales=en-us-x-wsj-83-2&ns=prod%2Faccounts-wsj&savelogin=on#!/signin')
-    browser.find_element_by_class_name('username').send_keys('granthale10@gmail.com')
-    browser.find_element_by_class_name('password').send_keys('Ferdamodel1')
-    browser.find_element_by_class_name('solid-button basic-login-submit').click()
+def wsj_login():
+    browser.get('https://sso.accounts.dowjones.com/login?state=g6Fo2SBTUWRJX056eXdVUDh1UlFSTFd4a2xiWnZHVTN4QkE0R6N0aWTZIENKd2YwWlQtQ2dLaWthcXdXNk9qSnZSb0tNRGNWdEJ3o2NpZNkgNWhzc0VBZE15MG1KVElDbkpOdkM5VFhFdzNWYTdqZk8&client=5hssEAdMy0mJTICnJNvC9TXEw3Va7jfO&protocol=oauth2&scope=openid%20idp_id%20roles%20email%20given_name%20family_name%20djid%20djUsername%20djStatus%20trackid%20tags%20prts%20suuid&response_type=code&redirect_uri=https%3A%2F%2Faccounts.wsj.com%2Fauth%2Fsso%2Flogin&nonce=a037e583-303a-4303-b483-d9ec4fd146fa&ui_locales=en-us-x-wsj-83-2&ns=prod%2Faccounts-wsj&savelogin=on#!/signin')
+    browser.find_element_by_css_selector('input.username').send_keys('7739515274')
+    browser.find_element_by_css_selector('input.password').send_keys('F45201791')
+    browser.find_element_by_css_selector('span.text').click()
 
 
 
@@ -95,7 +92,7 @@ def storeData():
                 pass
         file.close()
 
-wsjLogin()
+# wsjLogin()
 calibrateDate()
 wsjScrape()
 storeData()

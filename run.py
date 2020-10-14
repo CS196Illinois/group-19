@@ -146,6 +146,30 @@ def politicoScrape():
     
     print("Scraped Politico")
 
+# def foxScrape():
+#     browser.get('https://www.foxnews.com')
+#     foxHeadlines = browser.find_elements_by_tag_name('a')
+#     for i in foxHeadlines:
+#         try:
+#             foxLink = i.get_attribute('href')
+#             if '/' + currentYear + '/' + currentMonth + '/' + currentDay in foxLink:
+#                 foxList.add(foxLink)
+#         except:
+#             pass
+
+#     for i in foxList:
+#         browser.get(i)
+#         n = browser.find_elements_by_tag_name('p')
+#         for paragraph in n:
+#             try:
+#                 foxText.append(n.text)
+#                 print(n.text)
+#             except:
+#                 pass
+    
+#     global foxSearched
+#     foxSearched = True
+
 ### Adding scraped data to data.txt ###
 def storeData():
     
@@ -199,6 +223,14 @@ def storeData():
                 pass
         file.close()
 
+    # if foxSearched:
+    #     file = open("data.text", "a+")
+    #     for i in range(len(foxText)):
+    #         try:
+    #             file.write(foxText[i])
+    #         except:
+    #             pass
+    #     file.close()
 
 
 ### Main ###
@@ -208,5 +240,6 @@ upiScrape()
 usaScrape()
 cnnScrape()
 politicoScrape()
+# foxScrape()
 storeData()
 print('\ndone')

@@ -1,34 +1,11 @@
-### WITH MAC CHROMEDRIVER CURRENTLY ###
-
-### Imports ###
-import os
-from selenium import webdriver
+import requests
+from bs4 import BeautifulSoup, SoupStrainer
 import datetime
 
-### Initializing Variables ###
-
-cnnList = set()
-cnnText = []
-usaList = set()
-usaText = []
-upiList = set()
-upiText = []
-politicoList = set()
-politicoText = []
-cnnSearched = False
-usaSearched = False
-upiSearched = False
-politicoSearched = False
-
-### Finding and setting up chromedriver for webscraping ###
-#driver_path = os.path.dirname(os.path.realpath(__file__)) + '\\chromedriver.exe'
-     #PC Driver
-driver_path = os.path.dirname(os.path.realpath(__file__)) + '/chromedriver'
-browser = webdriver.Chrome(executable_path = driver_path)
-
-
-### Getting Current Date (Used in Webscraping) ###
-def calibrateDate():
+def newScrape():
+    file = open("data.txt","r+")
+    file.truncate(0)
+    file.close()
     try:
         global currentDay
         global currentMonth
@@ -46,164 +23,104 @@ def calibrateDate():
     else:
         currentDay = str(dt.day)
 
-    currentDay = "08"
-
-#Webscraping CNN
 def cnnScrape():
-    browser.get('http://lite.cnn.com/en')
-    cnnHeadlines = browser.find_elements_by_tag_name('a')
-    for i in cnnHeadlines:
-        try:
-            if "http://lite.cnn.com/" in i.get_attribute('href'):
-                cnnList.add(i.get_attribute('href'))
-        except:
-            pass
-    print(cnnList)  
-    for i in cnnList:
-        browser.get(i)
-        articleText = browser.find_elements_by_tag_name('p')
-        for n in articleText:
-            try:
-                if "© 2019 Cable News Network. Turner Broadcasting System, Inc. All Rights Reserved." not in n.text and "Listen to CNN (low-bandwidth usage)" not in n.text and "Go to the full CNN experience" not in n.text:
-                    cnnText.append(n.text)
-                    print(n.text)
-            except:
-                pass
-    global cnnSearched
-    cnnSearched = True
+    cnnLinks = set()
+    cnn = requests.get("http://lite.cnn.com/en")
+    cnn = BeautifulSoup(cnn.content, 'html.parser')
+    cnn = cnn.find_all('a')
+    for link in cnn:
+        if "article" in link.get('href'):
+            cnnLinks.add(link.get('href'))
+    file = open("data.txt","a+")
+    for link in cnnLinks:
+        article = requests.get("http://lite.cnn.com" + link)
+        article = BeautifulSoup(article.content, 'html.parser')
+        text = article.find_all('p')
+        for item in text:
+            item = item.getText()
+            if '© 2019 Cable News Network' not in item and "Listen to CNN (low-bandwidth usage)" not in item and "Go to the full CNN experience" not in item:
+                try:
+                    file.write(item)
+                except:
+                    pass
+    file.close()
 
-
-### Webscraping USAtoday ###
-def usaScrape():
-    browser.get('https://www.usatoday.com/news/')
-    usaHeadlines = browser.find_elements_by_tag_name('a')
-    for i in usaHeadlines:
-        try:
-            usaLink = i.get_attribute('href')
-            if '/' + currentYear + '/' + currentMonth + '/' + currentDay + '/' in usaLink:
-                usaList.add(usaLink)
-        except:
-            pass
-    print(usaList)  
-    for i in usaList:
-        browser.get(i)
-        articleText = browser.find_elements_by_class_name('gnt_ar_b_p')
-        for n in articleText:
-            usaText.append(n.text)
-            print(n.text)
-    global usaSearched
-    usaSearched = True
-
-    
-### Webscraping UPI ###
-def upiScrape():
-    browser.get('https://www.upi.com/Top_News/US/')
-    upiHeadlines = browser.find_elements_by_tag_name('a')
-    for i in upiHeadlines:
-        try:
-            upiLink = i.get_attribute('href')
-            if '/' + currentYear + '/' + currentMonth + '/' + currentDay in upiLink:
-                upiList.add(upiLink)
-        except:
-            pass
-    print(upiList)  
-    for i in upiList:
-        browser.get(i)
-        articleText = browser.find_elements_by_tag_name('p')
-        for n in articleText:
-            try:
-                upiText.append(n.text)
-                print(n.text)
-            except:
-                pass
-    global upiSearched
-    upiSearched = True
-
-### Webscraping Politico ###
 def politicoScrape():
-    browser.get('https://www.politico.com/')
-    politicoHeadlines = browser.find_elements_by_tag_name('a')
-    for i in politicoHeadlines:
-        try:
-            politicoLink = i.get_attribute('href')
-            if '/' + currentYear + '/' + currentMonth + '/' + currentDay + '/' in politicoLink:
-                politicoList.add(politicoLink)
-        except:
-            pass
-    print(politicoList)
-    for i in politicoList:
-        browser.get(i)
-        articleText = browser.find_elements_by_class_name('story-text__paragraph')
-        for n in articleText:
+    politicoLinks = set()
+    politico = requests.get("https://www.politico.com/politics")
+    politico = BeautifulSoup(politico.content, 'html.parser')
+    politico = politico.find_all('a')
+    for link in politico:
+        if currentYear + '/' + currentMonth + '/' + currentDay in link.get('href'):
+            politicoLinks.add(link.get('href'))
+    politico = requests.get("https://www.politico.com/politics/2")
+    politico = BeautifulSoup(politico.content, 'html.parser')
+    politico = politico.find_all('a')
+    for link in politico:
+        if currentYear + '/' + currentMonth + '/' + currentDay in link.get('href'):
+            politicoLinks.add(link.get('href'))
+    file = open("data.txt","a+")
+    for link in politicoLinks:
+        article = requests.get(link)
+        article = BeautifulSoup(article.content, 'html.parser')
+        text = article.find_all('p',{'class':'story-text__paragraph'})
+        for item in text:
+            item = item.getText()
             try:
-                politicoText.append(n.text)
-                print(n.text)
+                file.write(item)
             except:
                 pass
-    global politicoSearched
-    politicoSearched = True
+    file.close()
+            
+def usaScrape():
+    usaLinks = set()
+    usa = requests.get("https://www.usatoday.com/news/")
+    usa = BeautifulSoup(usa.content, 'html.parser')
+    usa = usa.find_all('a')
+    for link in usa:
+        if currentYear + '/' + currentMonth + '/' + currentDay in str(link.get('href')) and '/videos' != str(link.get('href'))[:7]:
+            usaLinks.add(link.get('href'))
+    file = open("data.txt","a+")
+    for link in usaLinks:
+        article = requests.get('https://www.usatoday.com' + link)
+        article = BeautifulSoup(article.content, 'html.parser')
+        text = article.find_all('p',{'class':'gnt_ar_b_p'})
+        for item in text:
+            item = item.getText()
+            try:
+                file.write(item)
+            except:
+                pass
+    file.close()
 
-### Adding scraped data to data.txt ###
-def storeData():
-    
-    #Delete data located in data.txt
-    
-    file = open("data.txt","r+")
-    file.truncate(0)
+def upiScrape():
+    upiLinks = set()
+    upi = requests.get('https://www.upi.com/Top_News/US/')
+    upi = BeautifulSoup(upi.content, 'html.parser')
+    upi = upi.find_all('a')
+    for link in upi:
+        if currentYear + '/' + currentMonth + '/' + currentDay in str(link.get('href')):
+            upiLinks.add(link.get('href'))
+    file = open("data.txt","a+")
+    for link in upiLinks:
+        article = requests.get(link)
+        article = BeautifulSoup(article.content, 'html.parser')
+        text = article.find_all('p')
+        for item in text:
+            item = item.getText()
+            if "});" not in item and "RELATED" not in item and "Advertisement" not in item:
+                try:
+                    file.write(item)
+                except:
+                    pass
     file.close()
     
-    #Append CNN data
 
-    if cnnSearched:
-        file = open("data.txt","a+")
-        for i in range(len(cnnText)):
-            try:
-                file.write(cnnText[i])
-            except:
-                pass
-        file.close()
-        
-    #Append USAnews data
+#Main
 
-    if usaSearched:
-        file = open("data.txt","a+")
-        for i in range(len(usaText)):
-            try:
-                file.write(usaText[i])
-            except:
-                pass
-        file.close()
-
-    #Append UPI data
-
-    if upiSearched:
-        file = open("data.txt","a+")
-        for i in range(len(upiText)):
-            try:
-                file.write(upiText[i])
-            except:
-                pass
-        file.close()
-
-    #Append Politico Data
-
-    if politicoSearched:
-        file = open("data.txt", "a+")
-        for i in range(len(politicoText)):
-            try:
-                file.write(politicoText[i])
-            except:
-                pass
-        file.close()
-
-
-
-### Main ###
-
-calibrateDate()
+newScrape()
 upiScrape()
 usaScrape()
-cnnScrape()
 politicoScrape()
-storeData()
+cnnScrape()
 print('done')

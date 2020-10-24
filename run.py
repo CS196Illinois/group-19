@@ -1,7 +1,12 @@
+
+#Imports
 import requests
 from bs4 import BeautifulSoup, SoupStrainer
 import datetime
+from urllib.request import Request, urlopen
+import re
 
+#To be called before every scrape attempt
 def newScrape():
     file = open("data.txt","r+")
     file.truncate(0)
@@ -23,6 +28,7 @@ def newScrape():
     else:
         currentDay = str(dt.day)
 
+#CNN Scrape
 def cnnScrape():
     cnnLinks = set()
     cnn = requests.get("http://lite.cnn.com/en")
@@ -45,6 +51,8 @@ def cnnScrape():
                     pass
     file.close()
 
+
+#Webscraping Politico
 def politicoScrape():
     politicoLinks = set()
     politico = requests.get("https://www.politico.com/politics")
@@ -71,7 +79,8 @@ def politicoScrape():
             except:
                 pass
     file.close()
-            
+
+#USA Today Scrape    
 def usaScrape():
     usaLinks = set()
     usa = requests.get("https://www.usatoday.com/news/")
@@ -93,6 +102,7 @@ def usaScrape():
                 pass
     file.close()
 
+#UPI Scrape
 def upiScrape():
     upiLinks = set()
     upi = requests.get('https://www.upi.com/Top_News/US/')
@@ -114,11 +124,42 @@ def upiScrape():
                 except:
                     pass
     file.close()
-    
+
+#The Federalist Scrape
+
+def fedScrape():
+    fedLinks = set()
+    fedString = ""
+    fed = Request("https://thefederalist.com/blog/", headers={'User-Agent': 'Mozilla/5.0'})
+    fed = urlopen(fed).read()
+    fed = BeautifulSoup(fed, 'html.parser')
+    fed = fed.find_all('a')
+    for match in fed:
+        fedString = fedString + str(match)
+    fedString = re.findall(r'https://thefederalist.com/2020/10/23/[^"]+', fedString)
+    for link in fedString:
+        fedLinks.add(link)
+    file = open("data.txt", "a+")
+    for link in fedLinks:
+        article = Request(link, headers={'User-Agent': 'Mozilla/5.0'})
+        article = urlopen(article).read()
+        article = BeautifulSoup(article, 'html.parser')
+        text = article.find_all('p')
+        for item in text:
+            item = item.getText()
+            if "Copyright © 2020 The Federalist" not in item:
+                try:
+                    file.write(item)
+                except:
+                    pass
+    file.close()
+        
+
 
 #Main
 
 newScrape()
+fedScrape()
 upiScrape()
 usaScrape()
 politicoScrape()

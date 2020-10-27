@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup, SoupStrainer
 import datetime
 from urllib.request import Request, urlopen
 import re
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer 
+from textblob import TextBlob
 
 #To be called before every scrape attempt
 def newScrape():
@@ -155,6 +157,23 @@ def fedScrape():
     file.close()
         
 
+#Polarity Check
+
+def polarityCheck():
+    with open('data.txt', 'r') as file:
+        data = file.read().replace('\n', '')
+    tester = SentimentIntensityAnalyzer()
+    dataBlob = TextBlob(data)
+    dataBlob = dataBlob.sentences
+    polarity = 0
+    count = 0
+    for sentence in dataBlob:
+        sentimentScore = tester.polarity_scores(sentence)['compound']
+        if int(sentimentScore * 10) != 0:
+            polarity = polarity + sentimentScore
+            count = count + 1
+    polarity = polarity / count
+    print("Polarity: " + str(polarity))
 
 #Main
 
@@ -164,4 +183,5 @@ upiScrape()
 usaScrape()
 politicoScrape()
 cnnScrape()
-print('done')
+polarityCheck()
+

@@ -144,7 +144,7 @@ def usaScrape():
     if usaText != "":
         usaPolarity = polarityCheck(usaText)
         print("USA Today Polarity: " + usaPolarity)
-        jsonOutput['usaToday'] = polarityCheck
+        jsonOutput['usaToday'] = usaPolarity
         averagePolarity = averagePolarity + float(usaPolarity)
         polarityCount = polarityCount + 1
     else:

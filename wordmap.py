@@ -1,5 +1,4 @@
 from wordcloud import WordCloud, STOPWORDS
-import wikipedia 
 import sys, os
 
 

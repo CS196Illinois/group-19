@@ -252,6 +252,7 @@ def polarityCheck(articleText):
 
 def endScrape():
     jsonOutput['average'] = averagePolarity / polarityCount
+    jsonOutput['date'] = currentMonth + currentDay + currentYear
     print("Average Polarity: " + str(averagePolarity / polarityCount))
     with open('polarity.txt', 'w') as file:
         json.dump(jsonOutput, file)

@@ -13,6 +13,8 @@ class SentimentModel(models.Model):
 class DaySentimentData(models.Model):
     date = models.DateField()
 
+    date_str = models.SlugField()
+
     overall_sentiment = models.ForeignKey(SentimentModel,
     on_delete=models.DO_NOTHING, related_name='overall')
 
@@ -27,6 +29,10 @@ class DaySentimentData(models.Model):
 
     def __str__(self):
         return self.date.strftime('%m/%d/%Y')
+
+    def save(self, *args, **kwargs):
+      self.date_str = str(self.date)
+      super().save(*args, **kwargs) 
 
 
 #username: ngs

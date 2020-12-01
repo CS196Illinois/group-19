@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <h1>{% block title %} {{ day.date }} {% endblock title %}</h1>
+        <p class="card-text ">Overall Positivity: {{ day.overall_sentiment.positivity }} | Overall Negativity: {{ day.overall_sentiment.negativity}}
+        Liberal Positivity: {{ day.liberal_sentiment.positivity }} | Liberal Negativity: {{ day.liberal_sentiment.negativity}}
+        Conservative Positivity: {{ day.conservative_sentiment.positivity }} | Conservative Negativity: {{ day.conservative_sentiment.negativity}}
+      </p>
+      </div>
+    </div>
+    {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+  </div>
+</div>
+
+{% endblock content %}

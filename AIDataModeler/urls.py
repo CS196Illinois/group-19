@@ -1,7 +1,8 @@
 from . import views
 from django.urls import path
+import datetime
 
 urlpatterns = [
-    path("", views.DayList.as_view(), name ='home'),   
-    path('<slug:slug>/', views.DayDetails.as_view(), name='sentiment_details')
+    path("", views.DayList, name ='home'),   
+    path("<slug:date_str>/", views.DayDetails, name='sentiment_details')
 ]

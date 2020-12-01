@@ -1,16 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views import generic
 from .models import *
 
 # Create your views here.
-def homeView(request):
-    return HttpResponse("<h1>Hello World</h1>")
 
-class DayList(generic.ListView):
-  queryset = DaySentimentData.objects.order_by('-date')
-  template_name = 'index.html'
+def DayList(request):
+  days = DaySentimentData.objects.all()
+  context = {
+        'days': days
+	}
+  return render(request, 'index.html', context)
 
-class DayDetails(generic.DetailView):
-    model = DaySentimentData
-    template_name = 'post_detail.html'  
+def DayDetails(request, date_str):
+    day = DaySentimentData.objects.get(date_str=date_str)
+    context = {
+        'day': day
+    }
+    return render(request, 'day_details.html', context)

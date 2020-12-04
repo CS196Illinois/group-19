@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% block content %}
+{% load static %}
 
 <div class="container">
   <div class="row">
@@ -9,6 +10,7 @@
         Liberal Positivity: {{ day.liberal_sentiment.positivity }} | Liberal Negativity: {{ day.liberal_sentiment.negativity}}
         Conservative Positivity: {{ day.conservative_sentiment.positivity }} | Conservative Negativity: {{ day.conservative_sentiment.negativity}}
       </p>
+      <img src="{% static day.word_map_path %}">
       </div>
     </div>
     {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}

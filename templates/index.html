@@ -40,7 +40,7 @@
                     <h2 class="card-title">{{ day.date }}</h2>
                     <p class="card-text text-muted h6">Overall Positivity: {{ day.overall_sentiment.positivity }} | Overall Negativity: {{ day.overall_sentiment.negativity}} </p>
                     <!--  <p class="card-text">{{post.content|slice:":200" }}</p>  -->
-                    <a href="{% url 'sentiment_details' day.date_str  %}" class="btn btn-primary">Read More &rarr;</a>
+                    <a href="{% url 'sentiment_details' day.date_str  %}" class="btn btn-info">More Info</a>
                 </div>
             </div>
             {% endfor %}
@@ -48,4 +48,17 @@
          {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
     </div>
 </div>
+{% if days.has_other_pages %}
+  <nav aria-label="Page navigation conatiner"></nav>
+  <ul class="pagination justify-content-center">
+    {% if days.has_previous %}
+    <li><a href="?page={{ days.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+    {% endif %}
+    {% if days.has_next %}
+    <li><a href="?page={{ days.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+   {% endif %}
+  </ul>
+  </nav>
+</div>
+{% endif %}
 {%endblock%}

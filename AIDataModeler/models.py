@@ -15,6 +15,8 @@ class DaySentimentData(models.Model):
 
     date_str = models.SlugField()
 
+    word_map_path = models.CharField(max_length=50, default=""); 
+
     overall_sentiment = models.ForeignKey(SentimentModel,
     on_delete=models.DO_NOTHING, related_name='overall')
 

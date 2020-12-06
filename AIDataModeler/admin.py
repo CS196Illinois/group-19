@@ -10,11 +10,14 @@ class DaySentimentAdmin(admin.ModelAdmin):
     #prepopulated_fields = {'slug': ('title',)}
 
 
-class SentimentModelAdmin(admin.ModelAdmin):
-    list_display = ['positivity', 'negativity']
-    list_filter = ['positivity', 'negativity']
-    search_fields = ['positivity', 'negativity']
+class OutletSentimentAdmin(admin.ModelAdmin):
+    list_display = ['cnn', 'politico', 'usa_today', 'upi', 'federalist', 
+    'average', 'average_consevative', 'average_liberal']
+    list_filter = ['cnn', 'politico', 'usa_today', 'upi', 'federalist', 
+    'average', 'average_consevative', 'average_liberal']
+    search_fields = ['cnn', 'politico', 'usa_today', 'upi', 'federalist', 
+    'average', 'average_consevative', 'average_liberal']
     #prepopulated_fields = {'slug': ('title',)}
     
 admin.site.register(DaySentimentData, DaySentimentAdmin)
-admin.site.register(SentimentModel, SentimentModelAdmin)
+admin.site.register(OutletSentiment, OutletSentimentAdmin)

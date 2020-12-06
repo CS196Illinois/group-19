@@ -38,7 +38,7 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title">{{ day.date }}</h2>
-                    <p class="card-text text-muted h6">Overall Positivity: {{ day.overall_sentiment.positivity }} | Overall Negativity: {{ day.overall_sentiment.negativity}} </p>
+                    <p class="card-text text-muted h6">Overall Positivity Value: {{ day.outlet_sentiment.average }} </p>
                     <!--  <p class="card-text">{{post.content|slice:":200" }}</p>  -->
                     <a href="{% url 'sentiment_details' day.date_str  %}" class="btn btn-info">More Info</a>
                 </div>

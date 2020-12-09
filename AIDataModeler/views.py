@@ -33,8 +33,8 @@ def DayDetails(request, date_str):
 
 def DayGraph(request):
   all_days = DaySentimentData.objects.all()
-    context = {
-        'days': days
+  context = {
+    'days': days
   }
   return render(request, 'graph.html', context)
 
@@ -45,5 +45,5 @@ def Policy(request):
   return render(request, 'policy.html')
 
 def Contact(request):
-  return render(request, 'contact.html')
+  return render(request, 'contatct.html')
 

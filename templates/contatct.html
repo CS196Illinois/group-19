@@ -10,16 +10,54 @@
     </head>
     <body>
         <style>
-
+            .contact-us-text {
+                font-family: "Roboto", sans-serif;
+                font-size: 20px;
+                padding-top: 40px;
+                padding-right: 80px;
+                padding-left: 80px;
+            }
+            h4 {
+                font-family: "Roboto", sans-serif;
+                padding-top: 30px;
+                padding-right: 50px;
+                padding-left: 50px;
+            }
         </style>
-        <body>
-            CONTACT US:
-            Xavier Contreras - devbp2@illinois.edu
-            Grant Hale - grantrh2@illinois.edu
-            Lisa Liu - lisaliu2@illinois.edu
-            Dev Parekh - devbp2@illinois.edu
-            Nathaniel Smith - ngsmith4@illinois.edu
-            John Valdivieso - johnav3@illinois.edu
-        </body>
+        <!-- Navigation Bar -->
+        {% extends "base.html" %}
+        {% block content %}
+        <!-- Content Goes here -->
+        <header class="masthead">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class=" col-md-8 col-md-10 mx-auto">
+                        <div class="site-heading">
+                            <h1 class=" site-heading my-4 mt-3 text-white">CONTACT US</h1>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <span>
+            <h4>Email us with any questions or inqueries. Our contact information is listed below.
+                You can also visit our GitHub page at <a href="https://github.com/CS196Illinois/group-19">here.</a>
+            </h4>
+            <p class="contact-us-text">
+                Xavier Contreras - devbp2@illinois.edu <br> <br>
+                Grant Hale - grantrh2@illinois.edu <br> <br>
+                Lisa Liu - lisaliu2@illinois.edu <br> <br>
+                Dev Parekh - devbp2@illinois.edu <br> <br>
+                Nathaniel Smith - ngsmith4@illinois.edu <br> <br>
+                John Valdivieso - johnav3@illinois.edu <br> <br>
+            </p>    
+        </span> 
+        {% endblock content %}
+        <!-- Footer -->
+        <footer class="py-3 bg-grey">
+            <!--<p class="m-0 text-dark text-center ">insert text</p> -->
+        </footer>
     </body>
 </html>

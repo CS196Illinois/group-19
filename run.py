@@ -12,12 +12,6 @@ import json
 jsonOutput = {}
 averagePolarity = 0
 polarityCount = 0
-global liberalPolarity
-global liberalCount
-global neutralPolarity
-global neutralCount
-global conservativePolarity
-global consevrativeCount
 
 
 #To be called before every scrape attempt

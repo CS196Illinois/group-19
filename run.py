@@ -12,6 +12,13 @@ import json
 jsonOutput = {}
 averagePolarity = 0
 polarityCount = 0
+global liberalPolarity
+global liberalCount
+global neutralPolarity
+global neutralCount
+global conservativePolarity
+global consevrativeCount
+
 
 #To be called before every scrape attempt
 def newScrape():
@@ -253,6 +260,9 @@ def polarityCheck(articleText):
 def endScrape():
     jsonOutput['average'] = averagePolarity / polarityCount
     jsonOutput['date'] = currentMonth + currentDay + currentYear
+    jsonOutput['averageLiberal'] = (float(jsonOutput['cnn']) + float(jsonOutput['politico'])) / 2
+    jsonOutput['averageNeutral'] = (float(jsonOutput['usaToday']) + float(jsonOutput['upi'])) / 2
+    jsonOutput['averageConservative'] = jsonOutput['federalist']
     print("Average Polarity: " + str(averagePolarity / polarityCount))
     with open('polarity.txt', 'w') as file:
         json.dump(jsonOutput, file)
@@ -261,10 +271,13 @@ def endScrape():
 #Main
 
 newScrape()
+#Liberal
 cnnScrape()
 politicoScrape()
+#Neutral
 usaScrape()
 upiScrape()
+#Conservative
 fedScrape()
 endScrape()
 

@@ -263,16 +263,14 @@ def endScrape():
 
 
 #Main
-
-newScrape()
-#Liberal
-cnnScrape()
-politicoScrape()
-#Neutral
-usaScrape()
-upiScrape()
-#Conservative
-fedScrape()
-endScrape()
-
-
+def news_scrape():
+    newScrape()
+    #Liberal
+    cnnScrape()
+    politicoScrape()
+    #Neutral
+    usaScrape()
+    upiScrape()
+    #Conservative
+    fedScrape()
+    endScrape()

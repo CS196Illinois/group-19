@@ -16,8 +16,8 @@ time.sleep(3)
 
 # # # # # Starts twitter stream # # # # 
 scraper.stream_command()
-time.sleep(20)
-print("Finished streaming 1000 tweets")
+time.sleep(200)
+print("Finished streaming 10,000 tweets")
 
 # # # # # Writes JSON file to text format, keeping only tweet text # # # # 
 data = open( "tweets.json", "r+" )

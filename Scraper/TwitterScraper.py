@@ -79,7 +79,7 @@ class TwitterListener( StreamListener ):
         self.i = i
 
     def on_data(self, data):
-        while (self.i < 1000):
+        while (self.i < 10000):
             try:
                 with open(self.fetched_tweets_filename, 'a') as tf:
                     tf.write(data)

@@ -248,6 +248,12 @@ def polarityCheck(articleText, count=0):
     polarity = polarity / count
     return(str(polarity))
 
+def twitterScrape(polarity):
+    global averagePolarity
+    global polarityCount
+    jsonOutput['twitter'] = polarity
+    averagePolarity += float(polarity)
+    polarityCount = polarityCount + 1
 
 #To be run at the end of scrape to store data to json
 
@@ -273,4 +279,3 @@ def news_scrape():
     upiScrape()
     #Conservative
     fedScrape()
-    endScrape()

@@ -3,7 +3,7 @@ import sys, os
 
 
 
-f = open(os.path.join(sys.path[0], "testArticle.txt"), "r")
+f = open(os.path.join(sys.path[0], "articletext.txt"), "r")
 text = f.read()
 
 stopwords = set(STOPWORDS)

@@ -8,6 +8,7 @@ The Internet is home to a vast amount of information. Our goal is to analyze the
 
 ## Built With
 * **Beautiful Soup** - Used for webscraping
+* **tweepy**
 * ***Add More***
 
 ## Getting Started

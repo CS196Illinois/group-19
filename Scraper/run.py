@@ -234,12 +234,12 @@ def fedScrape():
 
 #Polarity Check
 
-def polarityCheck(articleText):
+def polarityCheck(articleText, count=0):
     tester = SentimentIntensityAnalyzer()
     dataBlob = TextBlob(articleText)
     dataBlob = dataBlob.sentences
     polarity = 0
-    count = 0
+    count = count
     for sentence in dataBlob:
         sentimentScore = tester.polarity_scores(sentence)['compound']
         if abs(sentimentScore) >  0.3:

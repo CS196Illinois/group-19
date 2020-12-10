@@ -3,19 +3,23 @@ import run
 import json
 import time
 
-scraper = TwitterScraper.GoTime()
-
+# # # # Runs News Scrapers # # # #
 run.news_scrape()
 print("Ran news scrape")
 
+# # # # Creates instance of TwitterScraper.GoTime() Class # # # #
+scraper = TwitterScraper.GoTime()
+
+# # # # Clears tweets and tweetsToText files # # # # 
 scraper.clear_files()
 time.sleep(3)
-print("Cleared tweets.json and tweetsToText.txt")
 
+# # # # Starts twitter stream # # # # 
 scraper.stream_command()
-time.sleep(200)
-print("Finished streaming 10,000 tweets")
+time.sleep(20)
+print("Finished streaming 1000 tweets")
 
+# # # # Writes JSON file to text format, keeping only tweet text # # # # 
 data = open( "tweets.json", "r+" )
 for line in data:
     f = json.loads( line )
@@ -26,3 +30,8 @@ for line in data:
             pass
 
 print("Wrote String information to file")
+
+# # # # Twitter Polarity Score # # # #
+a = open("tweetsToText.txt", "r")
+print(run.polarityCheck(a.read(), 1))
+a.close()

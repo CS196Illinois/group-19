@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
+from django.http import JsonResponse
+from django.core import serializers
 
 # Create your views here.
 
@@ -32,11 +33,17 @@ def DayDetails(request, date_str):
     return render(request, 'day_details.html', context)
 
 def DayGraph(request):
-  all_days = DaySentimentData.objects.all()
+  days = DaySentimentData.objects.all()
   context = {
     'days': days
   }
   return render(request, 'graph.html', context)
+
+def DayGraphJson(request):
+    days = DaySentimentData.objects.all()
+    json_data = serializers.serialize('json', days, 
+      use_natural_foreign_keys=True, use_natural_primary_keys=True)
+    return HttpResponse(json_data)
 
 def About(request):
   return render(request, 'about.html')

@@ -1,0 +1,103 @@
+<!DOCTYPE html> 
+<html>
+
+    <head>
+        <title>Moody Models : About Page</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+        <meta name="google" content="notranslate" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous" />
+    </head>
+
+    <body>
+        <style>
+            .about-us-text {
+                font-family: "Roboto", sans-serif;
+                padding-top: 10px;
+                padding-right: 80px;
+                padding-left: 80px;
+            }
+            h2 {
+                font-family: "Roboto", sans-serif;
+                padding-top: 20px;
+                padding-right: 25px;
+                padding-left: 25px;
+            }
+            h4 {
+                font-family: "Roboto", sans-serif;
+                padding-top: 30px;
+                padding-right: 50px;
+                padding-left: 50px;
+            }
+        </style>
+        <!-- Navigation Bar -->
+        {% extends "base.html" %}
+        {% block content %}
+        <!-- Content Goes here -->
+        <header class="masthead">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class=" col-md-8 col-md-10 mx-auto">
+                        <div class="site-heading">
+                            <h1 class=" site-heading my-4 mt-3 text-white">ABOUT US</h1>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <span>
+            <h2>Moody Modules</h2>
+            <h4>About Our Project</h4>
+            <p class = "about-us-text">
+                The Internet is home to a vast amount of information.
+                Our goal is to analyze the overall trends of what is going on in the world right now.
+                The News Positivity Analyzer gauges online public opinion from new articles, 
+                which updates daily. This is done by web scraping articles and looking at the overall positivity 
+                and negativity of a given day.
+            </p>
+            <h4>Features</h4> 
+            <p>
+                <ul class = "about-us-text">
+                    <li>Web scraper: Gathers data from a variety of news articles</li>
+                    <li>Algorithm: Analyzes and determines the overall positivity/negativity of the news articles</li>
+                    <li>Data Visualization Tools: Models trends of overall positivity/negativity of the data</li>
+                    <li>Website: Utilizes the Django framkework to build a clean and functional website</li>
+                </ul>
+            </p>
+            <h4>Built With</h4>
+            <p>
+                <ul class = "about-us-text">
+                    <li>Django - Website building</li>
+                    <li>BootStrap - Front-end framework for website</li>
+                    <li>Beautiful Soup - Used for webscraping</li>
+		    <li>Tweepy - Twitter scraper</li>
+                    <li>Vader - Sentiment analysis</li>
+                    <li>d3js - JavaScript graph library</li>
+                    <li>Bootstrap  - CSS Style</li>
+		    <li>Requests Library - Used html access</li>	
+                </ul>
+            </p>
+            <h4>Contributors</h4>
+            <p class = "about-us-text">
+                Xavier Contreras <br>
+                Grant Hale <br>
+                Lisa Liu <br>
+                Dev Parekh <br>
+                Nathaniel Smith <br>
+                John Valdivieso <br>
+            </p>
+            <h4>Acknowledgements</h4>
+            <p class = "about-us-text">
+                Special thanks to our project managers Shreya Sharma and Sruthi Kilari.
+            </p>           
+        </span>
+        {% endblock content %}
+        <!-- Footer -->
+        <footer class="py-3 bg-grey">
+            <!--<p class="m-0 text-dark text-center ">insert text</p> -->
+        </footer>
+    </body>
+</html>

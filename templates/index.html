@@ -1,0 +1,65 @@
+{% extends "base.html" %} 
+{% block content %}
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+    
+    .head_text {
+        color: white;
+    }
+    
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+</style>
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to Moody Models </h3>
+                    <p class="text-light">Check out a graph of the previous days:
+                        <a href="{% url 'day_graph'%}" class="btn head_text">More Info</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3 left">
+            {% for day in days %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">{{ day.date }}</h2>
+                    <p class="card-text text-muted h6">Overall Positivity Value: {{ day.outlet_sentiment.average }} </p>
+                    <!--  <p class="card-text">{{post.content|slice:":200" }}</p>  -->
+                    <a href="{% url 'sentiment_details' day.date_str  %}" class="btn btn-info">More Info</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+         {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+    </div>
+</div>
+{% if days.has_other_pages %}
+  <nav aria-label="Page navigation conatiner"></nav>
+  <ul class="pagination justify-content-center">
+    {% if days.has_previous %}
+    <li><a href="?page={{ days.previous_page_number }}" class="page-link">&laquo; PREV </a></li>
+    {% endif %}
+    {% if days.has_next %}
+    <li><a href="?page={{ days.next_page_number }}" class="page-link"> NEXT &raquo;</a></li>
+   {% endif %}
+  </ul>
+  </nav>
+</div>
+{% endif %}
+{%endblock%}

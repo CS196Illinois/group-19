@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+{% load static %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <h1>{% block title %} {{ day.date }} {% endblock title %}</h1>
+        <p class="card-text ">Average Value: {{ day.outlet_sentiment.average }} | Average Conservative: {{ day.outlet_sentiment.average_consevative}} | Average Liberal: {{ day.outlet_sentiment.average_liberal}}
+        CNN Sentiment: {{ day.outlet_sentiment.cnn }} | Politico Sentiment: {{ day.outlet_sentiment.politico}}
+        USA Today Sentiment: {{ day.outlet_sentiment.usa_today }} | UPI Sentiment: {{ day.outlet_sentiment.upi}} | Federalist Sentiment: {{ day.outlet_sentiment.federalist}}
+      </p>
+      <img src="{% static day.word_map_path %}">
+      </div>
+    </div>
+    {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+  </div>
+</div>
+
+{% endblock content %}

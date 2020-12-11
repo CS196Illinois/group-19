@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+</style>
+<body>
+
+<!-- load the d3.js library -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+    // set the dimensions and margins of the graph
+    var margin = {top: 20, right: 20, bottom: 30, left: 50},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    // parse the date / time
+    var parseTime = d3.timeParse("%Y-%m-%d");
+
+    // set the ranges
+    var x = d3.scaleTime().range([0, width]);
+    var y = d3.scaleLinear().range([height, 0]);
+
+    // define the line
+    var valuelinecnn = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.cnn); });
+    // define the line
+    var valuelinepolitico = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.politico); });
+
+    var valuelineusatoday = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.usa_today); });
+
+    var valuelineupi = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.upi); });
+
+    var valuelinefederalist = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.federalist); });
+
+    var valuelineaverage = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.average); });
+
+    var valuelineaverageconservative = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.average_conservative); });
+
+    var valuelineaverageliberal = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.average_liberal); });
+
+    var valuelinetwitter = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.twitter); });
+
+    // append the svg obgect to the body of the page
+    // appends a 'group' element to 'svg'
+    // moves the 'group' element to the top left margin
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+
+    var dates = [];
+
+    d3.json("{% url 'json_graph_request' %}", function(error, data) {
+        data.forEach(function (d) {
+            dates.push(parseTime(d.fields.date));
+        });
+
+        function draw(data, dates) {
+
+            // Scale the range of the data
+            x.domain(d3.extent(dates));
+            y.domain([-1, 1]);
+
+            data.forEach(function(d) {
+                d.Date = parseTime(d.fields.date);
+                d.cnn = +d.fields.outlet_sentiment[0];
+                d.politico = +d.fields.outlet_sentiment[1];
+                d.usa_today = d.fields.outlet_sentiment[2];
+                d.upi = d.fields.outlet_sentiment[3];
+                d.federalist = d.fields.outlet_sentiment[4];
+                d.average = d.fields.outlet_sentiment[5];
+                d.average_conservative = d.fields.outlet_sentiment[6];
+                d.average_liberal = d.fields.outlet_sentiment[7];
+		d.twitter = d.fields.outlet_sentiment[8];			
+            });
+
+            // Add the valueline path.
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#e600ff")
+                .attr("d", valuelinecnn);
+
+            // Add the valueline path.
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#3bc300")
+                .attr("d", valuelinepolitico);
+
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#8e00f3")
+                .attr("d", valuelineusatoday);
+
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#ffe500")
+                .attr("d", valuelineupi);
+
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#00ffa6")
+                .attr("d", valuelinefederalist);
+
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#000000")
+                .attr("d", valuelineaverage);
+
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#ff0002")
+                .attr("d", valuelineaverageconservative);
+
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#000bff")
+                .attr("d", valuelineaverageliberal);
+
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#00acee")
+                .attr("d", valuelinetwitter);
+
+            // Add the X Axis
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+
+            // Add the Y Axis
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
+            svg.append("line")//making a line for legend
+                .attr("x1", 0)
+                .attr("x2", 900)
+                .attr("y1", 225.5)
+                .attr("y2", 225.5)
+                .style("stroke-dasharray","5,5")//dashed array for line
+                .style("stroke", "#000000");
+        }
+
+        draw(data, dates)
+    });
+
+</script>
+
+<canvas id="myCanvas" width="900" height="200"></canvas>
+<script>
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    var centerX = canvas.width / 2;
+    var centerY = canvas.height / 2;
+    var radius = 6;
+    var textMargin = 12;
+    var columnMargin = 20;
+    var col1x = 50;
+    var col2x = 220;
+    var col3x = 345;
+
+    context.beginPath();
+    context.arc(col1x, 12, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#000000';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#000000';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("Average", col1x + textMargin, 16);
+
+    context.beginPath();
+    context.arc(col1x, 12 + columnMargin, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#ff0002';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#ff0002';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("Average Conservative", col1x + textMargin, 16 + columnMargin);
+
+    context.beginPath();
+    context.arc(col1x, 12 + columnMargin * 2, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#000bff';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#000bff';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("Average Liberal", col1x + textMargin, 16 + columnMargin * 2);
+
+    context.beginPath();
+    context.arc(col2x, 12, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#00ffa6';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#00ffa6';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("The Federalist", col2x + textMargin, 16);
+
+    context.beginPath();
+    context.arc(col2x, 12 + columnMargin, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#ffe500';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#ffe500';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("UPI", col2x + textMargin, 16 + columnMargin);
+
+    context.beginPath();
+    context.arc(col2x, 12 + columnMargin * 2, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#8e00f3';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#8e00f3';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("USA Today", col2x + textMargin, 16 + columnMargin * 2);
+
+    context.beginPath();
+    context.arc(col3x, 12, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#3BC300';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#3BC300';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("Politico", col3x + textMargin, 16);
+
+    context.beginPath();
+    context.arc(col3x, 12 + columnMargin, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#e600ff';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#e600ff';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("CNN", col3x + textMargin, 16 + columnMargin);
+
+    context.beginPath();
+    context.arc(col3x, 12 + columnMargin * 2, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#00acee';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#00acee';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("Twitter", col3x + textMargin, 16 + columnMargin * 2);
+
+</script>
+</body>
+{%endblock%}

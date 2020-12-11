@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>Moody Models : Our Policy</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+        <meta name="google" content="notranslate" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous" />
+    </head>
+    <body>
+        <style>
+            p {
+                font-family: "Roboto", sans-serif;
+                font-size: 20px;
+                padding-top: 40px;
+                padding-right: 80px;
+                padding-left: 80px;
+            }
+        </style>
+        <!-- Navigation Bar -->
+        {% extends "base.html" %}
+        {% block content %}
+        <!-- Content Goes here -->
+        <header class="masthead">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class=" col-md-8 col-md-10 mx-auto">
+                        <div class="site-heading">
+                            <h1 class=" site-heading my-4 mt-3 text-white">OUR POLICY</h1>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <span>
+            <p>
+                It is important to state that we are not trying to make a political statement.<br>
+                This website is created solely to analyze the data from news articles.<br>
+                We created this website to simply show interesting data and have fun with a project.
+            </p>
+        </span>
+        {% endblock content %}
+        <!-- Footer -->
+        <footer class="py-3 bg-grey">
+            <!--<p class="m-0 text-dark text-center ">insert text</p> -->
+        </footer>
+    </body>
+</html>

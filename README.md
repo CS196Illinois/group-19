@@ -14,8 +14,6 @@ The Internet is home to a vast amount of information. Our goal is to analyze the
 * **d3js**
 * **Bootstrap**
 
-* ***Add More***
-
 ## Getting Started
 ***TBA***
 

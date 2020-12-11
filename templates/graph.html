@@ -61,6 +61,9 @@
         .x(function(d) { return x(d.Date); })
         .y(function(d) { return y(d.average_liberal); });
 
+    var valuelinetwitter = d3.line()
+        .x(function(d) { return x(d.Date); })
+        .y(function(d) { return y(d.twitter); });
 
     // append the svg obgect to the body of the page
     // appends a 'group' element to 'svg'
@@ -96,7 +99,7 @@
                 d.average = d.fields.outlet_sentiment[5];
                 d.average_conservative = d.fields.outlet_sentiment[6];
                 d.average_liberal = d.fields.outlet_sentiment[7];
-
+		d.twitter = d.fields.outlet_sentiment[8];			
             });
 
             // Add the valueline path.
@@ -149,6 +152,11 @@
                 .style("stroke", "#000bff")
                 .attr("d", valuelineaverageliberal);
 
+            svg.append("path")
+                .data([data])
+                .attr("class", "line")
+                .style("stroke", "#00acee")
+                .attr("d", valuelinetwitter);
 
             // Add the X Axis
             svg.append("g")
@@ -266,6 +274,15 @@
     context.font = "12px Arial";
     context.fillText("CNN", col3x + textMargin, 16 + columnMargin);
 
+    context.beginPath();
+    context.arc(col3x, 12 + columnMargin * 2, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = '#00acee';
+    context.fill();
+    context.lineWidth = 0;
+    context.strokeStyle = '#00acee';
+    context.stroke();
+    context.font = "12px Arial";
+    context.fillText("Twitter", col3x + textMargin, 16 + columnMargin * 2);
 
 </script>
 </body>

@@ -7,8 +7,13 @@ The Internet is home to a vast amount of information. Our goal is to analyze the
 * **Data Visualization Tools**: Models trends of overall positivity/negativity of the data
 
 ## Built With
-* **Beautiful Soup** - Used for webscraping
+* **Beautiful Soup** 
 * **tweepy**
+* **requests**
+* **VADER Sentiment Analysis**
+* **d3js**
+* **Bootstrap**
+
 * ***Add More***
 
 ## Getting Started
